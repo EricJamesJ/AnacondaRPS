@@ -1,0 +1,32 @@
+<div *ngIf="_screenType == _ScreenType.Start">
+	<button (click)="_newGame()" >New Game</button>
+	<p>Upload Save File: <input type="file" name="files" (change)="_uploadSave($event)"/></p>
+</div>
+<div *ngIf="_screenType == _ScreenType.Versus">
+	<button (click)="_startGame(_PlayerType.Person)">Player VS Player</button>
+	<button (click)="_startGame(_PlayerType.PC)">Player VS Computer</button>
+</div>
+<div *ngIf="_screenType == _ScreenType.NameInput">
+    <label>Player Name:</label>
+    <p><input type="text" [(ngModel)]="_player.name"></p>
+	
+    <label>Opponent Name:</label>
+    <p *ngIf="_opponent.type == _PlayerType.PC"><input readonly type="text" [(ngModel)]="_opponent.name"></p>
+	<p *ngIf="_opponent.type != _PlayerType.PC"><input type="text" [(ngModel)]="_opponent.name"></p>
+
+	<button (click)="_play()" >Play</button>
+</div>
+<div *ngIf="_screenType == _ScreenType.PickRPS" style="display: table-caption;">
+    <label>{{_currentPlayer.name}}'s turn</label>
+	<button (click)="_chooseAttack(_Attack.Rock)">ROCK</button>
+	<button (click)="_chooseAttack(_Attack.Paper)">PAPER</button>
+	<button (click)="_chooseAttack(_Attack.Scissors)">SCISSORS</button>
+</div>
+<div *ngIf="_screenType == _ScreenType.RoundEnd" style="display: grid;">
+    <label *ngIf="_winner != null">!!!{{_winner}} Wins The Round!!!</label>
+    <label *ngIf="_winner == null">!!!{{_winner}}DRAW!!!</label>
+	<span>{{_player.name}} wins: {{_player.wins}}</span>
+	<span>{{_opponent.name}} wins: {{_opponent.wins}}</span>
+	<button (click)="_play()">Next Round</button>
+	<button (click)="_saveGame()">Save Game</button>
+</div>
